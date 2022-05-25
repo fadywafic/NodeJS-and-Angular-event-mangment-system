@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="navbar-brand">Welcome</span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="events">Registered Events</a>
+        </li>
+      </ul>
+      <div class="d-flex">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" routerLink="/login" (click)="clearToken()">Log Out</a>
+              </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<h1 class="text-center my-3">Welcome {{std.userName.toLowerCase()}} </h1>
+<router-outlet></router-outlet>

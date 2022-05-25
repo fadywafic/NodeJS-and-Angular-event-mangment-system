@@ -1,0 +1,18 @@
+<div class="container">
+<div class="d-flex flex-column align-items-center justify-content-around my-4" style="background-color: azure; border: grey solid 4px;">
+    <h3 class="mt-5">Add Other Speakers to {{event.title}}</h3>
+    <div class="d-flex flex-column align-items-center justify-content-around my-4">
+        <p-pickList [source]="speakers|filteredSpeakers:event.otherSpeakers" [target]="event.otherSpeakers">
+        <ng-template let-speaker pTemplate="item">
+            <div>
+                <!-- <img src="assets/showcase/images/demo/car/{{car.brand}}.png" style="display:inline-block;margin:2px 0 2px 2px" width="48"> -->
+                <div style="font: size 80px bold;float:none;margin:15px 5px 0 0">{{speaker.userName}}({{speaker.email}})</div>
+            </div>
+        </ng-template>
+    </p-pickList>
+</div>
+<button class="btn btn-success my-3 text-center" (click)="editSpeakersInEvent(event.otherSpeakers)" role="button"> Save </button>
+<a  class="btn btn-primary my-3 text-center" routerLink="/admin/events" role="button"> Back </a>
+</div>
+</div>
+

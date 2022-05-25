@@ -1,0 +1,159 @@
+<div class="container" >
+    <p-toast></p-toast>
+
+<div class="card" style="background-color: lightblue;">
+    <p-toolbar styleClass="my-4" class="d-flex justify-content-around">
+        <h4 class="text-center mx-3">Add New Event</h4>
+        <ng-template pTemplate="left" >
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt class="table -table-dark" [value]="events" [rows]="10" [paginator]="true"  responsiveLayout="scroll"    
+        [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h3 class="m-0 text-center">Manage Events</h3>
+                <!-- <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal(event.title, 'contains')" placeholder="Search by title..." />
+                </span> -->
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr >
+                <!-- <th>#</th> -->
+                <th class="text-center col-2" pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
+                <!-- <th>Image</th> -->
+                <th class="text-center col-3" pSortableColumn="eventDate">Date <p-sortIcon field="eventDate"></p-sortIcon></th>
+                <th class="text-center col3" pSortableColumn="mainSpeaker.userName">Main Speaker <p-sortIcon field="mainSpeaker.userName"></p-sortIcon></th>
+                <!-- <th pSortableColumn="imp">Importance <p-sortIcon field="imp"></p-sortIcon></th> -->
+                <!-- <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th> -->
+                <th class="text-center col-2">Event Operations</th>
+                <th class="text-center col-1">Student Operations</th>
+                <th class="text-center col-1">Speaker Operations</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-event>
+            <tr >
+                <!-- <td>{{index++}}</td> -->
+                <td class="text-center">{{event.title}}</td>
+                <!-- <td><img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" width="100" class="shadow-4" /></td> -->
+                <td class="text-center">{{event.eventDate | date}}</td>
+                <td class="text-center">{{event.mainSpeaker.userName}}</td>
+                <!-- <td><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td> -->
+                <!-- <td><span [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span></td> -->
+                <td class="text-center">
+                    <a pButton pRipple icon="pi pi-align-justify" class="p-button-rounded p-button-success mr-2" [routerLink]="['details',event._id]"></a>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2" (click)="editProduct(event)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteProduct(event)"></button>
+                </td>
+                <td class="text-center">
+                    <a pButton pRipple icon="pi pi-users" class="p-button-rounded p-button-primary mr-2" [routerLink]="['addStudents',event._id]"></a>
+                </td>
+                <td class="text-center">
+                    <button pButton pRipple icon="pi pi-users" class="p-button-rounded p-button-secondary mr-2" [routerLink]="['addSpeakers',event._id]"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{events ? events.length : 0 }} events.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<form name="form" (ngSubmit)="onAdding(myForm)" #myForm="ngForm">
+<p-dialog [(visible)]="eventDialogAdd" [style]="{width: '800px', height: '600px'}" header="Event Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <!-- <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image"> -->
+        <div class="field">
+            <label for="title">Title</label>
+            <input type="text" pInputText id="text" [(ngModel)]="event.title" required autofocus name="title" #title="ngModel" />
+            <small class="p-error" *ngIf="myForm.submitted && title.errors">Title is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="mainSpeaker.userName">Main Speaker</label>
+            <p-dropdown [(ngModel)]="event.mainSpeaker" [options]="speakers"  optionLabel="event.mainSpeaker.userName" placeholder="select" name="mainSpeaker"  #speaker="ngModel">
+                <ng-template let-option pTemplate="item">
+                    <span [class]="'events-badge status-' + option.userName">{{option.userName}}</span>
+                </ng-template>
+            </p-dropdown>
+            <small class="p-error" *ngIf="myForm.submitted && !speaker.touched "> mainSpeaker is required </small>
+
+        </div>
+
+         <div class="field">
+            <label for="date">Date</label>
+            <input type="date" pInputText id="text" [(ngModel)]="event.eventDate" autofocus required name="date" #date="ngModel"/>
+            <small class="p-error" *ngIf="myForm.submitted && !date.touched ">Date is required and must be in format (yyyy-mm-dd).</small>
+        </div>
+         <!-- <div class="field">
+            <label for="mainSpeaker">Main Speaker</label>
+            <input type="text" pInputText id="text" [(ngModel)]="event.mainSpeaker.userName" required autofocus />
+            <small class="p-error" *ngIf="submitted && !event.mainSpeaker">Main Speaker is required.</small>
+        </div> -->
+        <!-- <div class="field">
+            <label for="description">Description</label>
+            <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
+        </div> -->
+        
+
+        <!-- <div class="formgrid grid"> 
+            <div class="field col">
+                <label for="price">Price</label>
+                <p-inputNumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+            </div> 
+            <div class="field col">
+                <label for="quantity">Quantity</label>
+                <p-inputNumber id="quantity" [(ngModel)]="product.quantity"></p-inputNumber>
+            </div> 
+        </div> -->
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialogAdd(myForm)"></button>
+        <button type="submit" pButton pRipple label="Add" icon="pi pi-check" class="p-button-text" ></button>
+    </ng-template>
+</p-dialog>
+</form>
+
+<form name="form" (ngSubmit)="onEditing(myForm)" #myForm="ngForm">
+<p-dialog [(visible)]="eventDialogEdit" [style]="{width: '800px', height: '600px'}" header="Event Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="title">Title</label>
+            <input type="text" pInputText id="text" [(ngModel)]="event.title" required autofocus name="title" #title="ngModel" />
+            <small class="p-error" *ngIf="myForm.submitted && title.errors">Title is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="mainSpeaker.userName">Main Speaker</label>
+            <p-dropdown [(ngModel)]="event.mainSpeaker" [options]="speakers"  optionLabel="event.mainSpeaker.userName" placeholder="select" name="mainSpeaker"  #speaker="ngModel">
+                <ng-template let-option pTemplate="item">
+                    <span [class]="'events-badge status-' + option.userName">{{option.userName}}</span>
+                </ng-template>
+            </p-dropdown>
+            <small class="p-error" *ngIf="myForm.submitted && speaker.errors "> mainSpeaker is required </small>
+
+        </div>
+
+         <div class="field">
+            <label for="date">Date</label>
+            <input type="date" pInputText id="text" [(ngModel)]="event.eventDate" autofocus required name="date" #date="ngModel"/>
+            <small class="p-error" *ngIf="myForm.submitted && date.errors ">Date is required and must be in format (yyyy-mm-dd).</small>
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialogEdit(myForm)"></button>
+        <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" ></button>
+    </ng-template>
+</p-dialog>
+</form>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+</div>

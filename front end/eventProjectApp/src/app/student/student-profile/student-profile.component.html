@@ -1,0 +1,45 @@
+<div class="container mt-5">
+    <div  class="d-flex justify-content-center align-items-center">
+        <div class="d-flex flex-column justify-content-center align-items-center" style="width: 500px; height: 650px; background-color:ghostwhite;  border: 4px solid gray;">
+            <h1 class="text-center mb-5">Profile Data</h1>
+    <form class="g-3" style="width: 400px;" name="form" (ngSubmit)="onSubmit(myForm)"  #myForm="ngForm">
+        
+      <div >
+        <label for="myUsername" class="form-label mt-3">Username</label>
+        <input type="text" class="form-control" name="Username" id="myUsername" [(ngModel)]="student.userName" #Username="ngModel" [ngClass]="{'is-valid':!Username.errors, 'is-invalid': Username.errors }" required>
+        <div *ngIf="myForm.submitted && Username.errors" class="invalid-feedback alert alert-danger" role="alert">
+          Username is a must
+        </div>
+      </div>
+
+      <div >
+        <label for="email" class="form-label mt-3">Email</label>
+        <input type="email" class="form-control" name="email" id="myEmail"[(ngModel)]="student.email" #email="ngModel" [pattern]="emailPattern" [ngClass]="{'is-valid':!email.errors, 'is-invalid': email.errors }" required>
+        <div *ngIf="myForm.submitted && email.errors" class="invalid-feedback alert alert-danger" role="alert">
+          invalid Email
+        </div>
+      </div>
+
+      <div>
+
+      </div>
+        <label for="myPassword" class="form-label mt-3">Password</label>
+        <input type="password" class="form-control" name="prevPassword" [ngModel]="previousPassword" #prevPassword="ngModel"  disabled>
+      <div >
+        <label for="myPassword" class="form-label mt-3">New Password</label>
+          <input type="password" class="form-control" name="password" id="myPassword" value="" [(ngModel)]="studentNewPassword" #pass="ngModel" [ngClass]="{'is-valid': !pass.errors, 'is-invalid': pass.errors }" pPassword required>
+          <div *ngIf="myForm.submitted && pass.errors " class="invalid-feedback alert alert-danger" role="alert">
+            You must either enter a new password, or confirm editing by enter your current password
+          </div>
+      </div>
+
+      <div class="d-grid gap-2 text-center my-3">
+        <button class="btn btn-primary" type="submit">Edit</button>
+      </div>
+      <div *ngIf="myForm.submitted && editFailed" class="alert alert-danger" role="alert">
+        {{errorMessage}}
+      </div>
+    </form>
+  </div>
+</div>
+</div>

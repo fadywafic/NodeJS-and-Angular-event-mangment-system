@@ -1,0 +1,92 @@
+
+<div class="container" >
+    <p-toast></p-toast>
+
+<div class="card" style="background-color: lightblue;">
+
+    <p-table #dt class="table" [value]="speakers" [rows]="10" [paginator]="true"  responsiveLayout="scroll"    
+        [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h3 class="m-0 text-center">Manage Speakers</h3>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr >
+                <!-- <th>#</th> -->
+                <th class="text-center col-1" pSortableColumn="title"># <p-sortIcon field="title"></p-sortIcon></th>
+                <th class="text-center col-3" pSortableColumn="eventDate"> UserName <p-sortIcon field="eventDate"></p-sortIcon></th>
+                <th class="text-center col-3" pSortableColumn="mainSpeaker.userName"> Email <p-sortIcon field="mainSpeaker.userName"></p-sortIcon></th>
+                <th class="text-center col-2"> Operations </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-speaker>
+            <tr >
+                <td class="text-center">{{speakers.indexOf(speaker) +1}}</td>
+                <!-- <td class="text-center">{{speaker._id}}</td> -->
+                <td class="text-center">{{speaker.userName}}</td>
+                <td class="text-center">{{speaker.email}}</td>
+                <td class="text-center">
+                    <a pButton pRipple icon="pi pi-align-justify" class="p-button-rounded p-button-success mr-2" [routerLink]="['details',speaker._id]"></a>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2" (click)="editProduct(speaker)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteProduct(speaker)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{speakers ? speakers.length : 0 }} speakers.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<form name="form" (ngSubmit)="onEditing(myForm)" #myForm="ngForm">
+<p-dialog [(visible)]="speakerDialogEdit" [style]="{width: '800px', height: '600px'}" header="Speaker Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="title">ID</label>
+            <input type="text" pInputText id="text" [(ngModel)]="speaker._id" required autofocus name="speakerID" #speakerID="ngModel" disabled/>
+        </div>
+
+        <div class="field">
+            <label for="title">Username</label>
+            <input type="text" pInputText id="text" [(ngModel)]="speaker.userName" required autofocus name="username" #username="ngModel" />
+            <small class="p-error" *ngIf="myForm.submitted && username.errors "> Username is required </small>
+        </div>
+
+         <div class="field">
+            <label for="date">Email</label>
+            <input type="text" pInputText id="text" [(ngModel)]="speaker.email" autofocus required name="email" #email="ngModel" disabled/>
+        </div>
+
+        <div class="row">
+        <h6 class="mt-3" style="margin-bottom: 0px;">Address:</h6>
+        <div class="col-4">
+          <label for="city" class="form-label mt-3">City</label>
+          <input type="text" class="form-control" name="city" id="myCity" aria-describedby="myCityFeedback" [(ngModel)]="speaker.address.city" #city="ngModel">
+        </div>
+        
+        <div class="col-4">
+          <label for="street" class="form-label mt-3">Street</label>
+          <input type="text" class="form-control" name="street" id="myStreet" aria-describedby="myStreetFeedback" [(ngModel)]="speaker.address.street" #street="ngModel">
+        </div>
+      
+        <div class="col-4">
+          <label for="building" class="form-label mt-3">Building</label>
+          <input type="text" class="form-control" name="building" id="myBuilding" aria-describedby="myBuildingFeedback" [(ngModel)]="speaker.address.building" #building="ngModel">
+        </div>
+      </div>
+      
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialogEdit(myForm)"></button>
+        <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" ></button>
+    </ng-template>
+</p-dialog>
+</form>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+</div>

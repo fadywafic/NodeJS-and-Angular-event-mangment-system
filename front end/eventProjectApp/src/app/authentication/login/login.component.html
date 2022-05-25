@@ -1,0 +1,53 @@
+
+    <h1 class="my-4 text-center">Log In Form</h1>
+<div class="d-flex align-items-center justify-content-center">
+    <div class="d-flex justify-content-center align-items-center" style="width: 500px; height: 600px; background-color:lightgray;  border: 4px solid gray;">
+        <form name="form" style="width: 400px;" (ngSubmit)="onSubmit(myForm)" #myForm="ngForm">
+
+            <label for="email" class="form-label mt-3">Email</label>
+            <input type="email" class="form-control" name="email" id="myEmail"[(ngModel)]="user.email" #email="ngModel" [pattern]="emailPattern" [ngClass]="{'is-valid':!email.errors, 'is-invalid': email.errors }" required>
+            <div *ngIf="myForm.submitted && email.errors" class="invalid-feedback alert alert-danger" role="alert">
+                invalid Email
+            </div>
+            <!-- TODO: This is for server side, there is another version for browser defaults -->
+
+            <label for="password" class="form-label mt-3">Password</label>
+            <div>
+                <input type="password" class="form-control" name="password" id="myPassword" [(ngModel)]="user.password" #pass="ngModel" [ngClass]="{'is-valid': !pass.errors, 'is-invalid': pass.errors }" pPassword required>
+                <div *ngIf="myForm.submitted && pass.errors " class="invalid-feedback alert alert-danger" role="alert">
+                    Password is a must 
+                </div>
+            </div>
+            <!-- TODO: This is for server side, there is another version for browser defaults -->
+
+            <div class="mb-3">
+                <label for="role" class="form-label mt-3">Role</label>
+                <select class="form-select" name="role" id="myRole" [(ngModel)]="user.role" #role="ngModel">
+                    <option>student</option>
+                    <option>speaker</option>
+                </select>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div *ngIf="myForm.submitted && loginFailed" class="alert alert-danger" role="alert">
+                {{errorMessage}}
+            </div>
+            <div class="d-grid gap-2 text-center">
+                if you don't have any accounts :
+               <a routerLink="/studentSignUp" class="btn btn-danger btn-block" >click here to register as Student</a>
+               <a routerLink="/speakerSignUp" class="btn btn-warning btn-block">click here to register as Speaker</a> 
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+    
+

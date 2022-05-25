@@ -1,0 +1,25 @@
+<div class="d-flex flex-column justify-content-center">
+    <h1 class="text-center mt-5 mb-3"> Registered Events </h1>
+    <div class="container">
+        <table class="table table-sm table-bordered table-hover table-responsive ">
+            <thead class="table-dark" >
+                <tr class="text-center">
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Main Speaker</th>
+                    <th>Other Speakers</th>
+                </tr>
+                </thead>
+                <tbody *ngFor="let item of event; let index = index">
+                    <tr class="text-center my-4">
+                        <td scope="row">{{index+1}}</td>
+                        <td>{{item.title}}</td>
+                        <td>{{item.eventDate|date}}</td>
+                        <td>{{item.mainSpeaker.userName}}</td>
+                        <td>{{item.otherSpeakers|otherspeakers}}</td>
+                    </tr>
+                </tbody>
+        </table>
+    </div>
+</div>

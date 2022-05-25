@@ -1,0 +1,46 @@
+<div class="container my-4">
+    
+<div class="surface-section">
+    <div class="font-medium text-3xl text-900 mb-3">Speaker Information</div>
+    <ul class="list-none p-0 m-0">
+        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="text-500 w-6 md:w-2 font-medium">ID</div>
+            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{speaker._id}}</div>
+        </li>
+        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="text-500 w-6 md:w-2 font-medium">Username</div>
+            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{speaker.userName}}</div>
+        </li>
+         <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="text-500 w-6 md:w-2 font-medium">Email</div>
+            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{speaker.email}}</div>
+        </li>
+        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="text-500 w-6 md:w-2 font-medium">Address</div>
+            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                <ul class="list-none p-0 m-0">
+                    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-2 font-medium">Building</div>
+                        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{speaker.address.building}}</div>
+                    </li>
+                     <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-2 font-medium">Street</div>
+                        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{speaker.address.street}}</div>
+                    </li>
+                     <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-2 font-medium">City</div>
+                        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{speaker.address.city}}</div>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="text-500 w-6 md:w-2 font-medium">Speaker Events</div>
+            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                <p-chip class="mr-2" *ngFor="let event of speaker.events">{{event.title}}</p-chip>
+            </div>
+        </li>
+    </ul >
+</div>
+<a  class="btn btn-primary my-3" routerLink="/admin/speakers" role="button"> Back </a>
+</div>
